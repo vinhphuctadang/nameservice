@@ -10,7 +10,7 @@ on:
 
 jobs:
   run-unittests:
-  - name: Run unit tests
+    name: Run unit tests
     runs-on: ubuntu-latest
     steps:
     - name: Checkout injective-exchange
