@@ -3,6 +3,14 @@
 
 ## Get started
 
+### Installation
+
+```
+curl https://get.starport.network/starport! | bash
+```
+
+### Start the local chain (1 node)
+
 ```
 starport chain serve
 ```
@@ -13,35 +21,80 @@ starport chain serve
 
 Your blockchain in development can be configured with `config.yml`. To learn more, see the [Starport docs](https://docs.starport.com).
 
-### Web Frontend
+### Context:
 
-Starport has scaffolded a Vue.js-based web app in the `vue` directory. Run the following commands to install dependencies and start the app:
+We want to construct a name service chain, which allows:
 
-```
-cd vue
-npm install
-npm run serve
-```
+- Everyone can be a creator, to create a new name and become its owner
 
-The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Starport front-end development](https://github.com/tendermint/vue).
+    - Name cannot be duplicated
 
-## Release
-To release a new version of your blockchain, create and push a new tag with `v` prefix. A new draft release with the configured targets will be created.
+- Owner of a name can set its price + sale status (for sale nor not for sale)
 
-```
-git tag v0.1
-git push origin v0.1
-```
+- Buyer (other than owner), can buy a created name and become new owner
 
-After a draft release is created, make your final changes from the release page and publish it.
+    - When buyer successfully buys, his token will be transferred to owner
+    - Owner of the name will be set to buyer
 
-### Install
-To install the latest version of your blockchain node's binary, execute the following command on your machine:
+### Commands to test
 
 ```
-curl https://get.starport.com/vinhphuctadang/nameservice@latest! | sudo bash
+starport chain serve
 ```
-`vinhphuctadang/nameservice` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
+
+- Create a new name:
+
+```
+nameserviced tx nameservice create-name example 1000 true --from alice -y
+```
+
+- Check if new name created
+
+```
+nameserviced query nameservice info example
+```
+
+Output:
+
+```
+forSale: "true"
+owner: cosmos1d666nk8lrlmlhwv3jfcfzuxdx6289ng6njzewk
+price: 1000token
+```
+
+- Change sale status
+
+```
+nameserviced tx nameservice change-sale-status example 100 false --from alice
+```
+
+Query to check name information again:
+
+```
+nameserviced query nameservice info example
+```
+
+Output:
+
+```
+forSale: "false"
+owner: cosmos1d666nk8lrlmlhwv3jfcfzuxdx6289ng6njzewk
+price: 100token
+```
+
+- To buy a name (have to change sale status to true):
+
+```
+nameserviced tx nameservice buy example 100 --from bob -y
+```
+
+Yet should check name info again
+
+```
+forSale: "false"
+owner: cosmos1zmktwk3w3g6fgh6mk95z6xmkya2qz5j0grk25p
+price: 100token
+```
 
 ## Learn more
 
