@@ -7,7 +7,39 @@ option go_package = "github.com/vinhphuctadang/nameservice/x/nameservice/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc CreateName(MsgCreateName) returns (MsgCreateNameResponse);
+      rpc Buy(MsgBuy) returns (MsgBuyResponse);
+      rpc ChangeSaleStatus(MsgChangeSaleStatus) returns (MsgChangeSaleStatusResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateName {
+  string creator = 1;
+  string name = 2;
+  string price = 3;
+  string forSale = 4;
+}
+
+message MsgCreateNameResponse {
+}
+
+message MsgBuy {
+  string creator = 1;
+  string name = 2;
+  string price = 3;
+}
+
+message MsgBuyResponse {
+}
+
+message MsgChangeSaleStatus {
+  string creator = 1;
+  string name = 2;
+  string price = 3;
+  string forSale = 4;
+}
+
+message MsgChangeSaleStatusResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

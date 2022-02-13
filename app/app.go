@@ -358,6 +358,7 @@ func New(
 		keys[nameservicemoduletypes.StoreKey],
 		keys[nameservicemoduletypes.MemStoreKey],
 		app.GetSubspace(nameservicemoduletypes.ModuleName),
+		app.BankKeeper,
 	)
 	nameserviceModule := nameservicemodule.NewAppModule(appCodec, app.NameserviceKeeper, app.AccountKeeper, app.BankKeeper)
 

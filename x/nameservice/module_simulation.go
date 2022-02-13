@@ -24,7 +24,19 @@ var (
 )
 
 const (
-// this line is used by starport scaffolding # simapp/module/const
+	opWeightMsgCreateName = "op_weight_msg_create_chain"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreateName int = 100
+
+	opWeightMsgBuy = "op_weight_msg_create_chain"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgBuy int = 100
+
+	opWeightMsgChangeSaleStatus = "op_weight_msg_create_chain"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgChangeSaleStatus int = 100
+
+	// this line is used by starport scaffolding # simapp/module/const
 )
 
 // GenerateGenesisState creates a randomized GenState of the module
@@ -56,6 +68,39 @@ func (am AppModule) RegisterStoreDecoder(_ sdk.StoreDecoderRegistry) {}
 // WeightedOperations returns the all the gov module operations with their respective weights.
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	operations := make([]simtypes.WeightedOperation, 0)
+
+	var weightMsgCreateName int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreateName, &weightMsgCreateName, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateName = defaultWeightMsgCreateName
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateName,
+		nameservicesimulation.SimulateMsgCreateName(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgBuy int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgBuy, &weightMsgBuy, nil,
+		func(_ *rand.Rand) {
+			weightMsgBuy = defaultWeightMsgBuy
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgBuy,
+		nameservicesimulation.SimulateMsgBuy(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgChangeSaleStatus int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgChangeSaleStatus, &weightMsgChangeSaleStatus, nil,
+		func(_ *rand.Rand) {
+			weightMsgChangeSaleStatus = defaultWeightMsgChangeSaleStatus
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgChangeSaleStatus,
+		nameservicesimulation.SimulateMsgChangeSaleStatus(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
 
 	// this line is used by starport scaffolding # simapp/module/operation
 

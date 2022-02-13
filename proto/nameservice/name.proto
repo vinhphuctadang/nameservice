@@ -1,0 +1,14 @@
+syntax = "proto3";
+package vinhphuctadang.nameservice.nameservice;
+
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "github.com/vinhphuctadang/nameservice/x/nameservice/types";
+
+// Params defines the parameters for the module.
+message Name {
+    string owner = 1;
+    bool forSale = 2;
+    cosmos.base.v1beta1.Coin price = 3;
+}
