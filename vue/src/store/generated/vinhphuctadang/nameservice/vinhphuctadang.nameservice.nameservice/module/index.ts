@@ -4,15 +4,15 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
+import { MsgBuy } from "./types/nameservice/tx";
 import { MsgChangeSaleStatus } from "./types/nameservice/tx";
 import { MsgCreateName } from "./types/nameservice/tx";
-import { MsgBuy } from "./types/nameservice/tx";
 
 
 const types = [
+  ["/vinhphuctadang.nameservice.nameservice.MsgBuy", MsgBuy],
   ["/vinhphuctadang.nameservice.nameservice.MsgChangeSaleStatus", MsgChangeSaleStatus],
   ["/vinhphuctadang.nameservice.nameservice.MsgCreateName", MsgCreateName],
-  ["/vinhphuctadang.nameservice.nameservice.MsgBuy", MsgBuy],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -45,9 +45,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
+    msgBuy: (data: MsgBuy): EncodeObject => ({ typeUrl: "/vinhphuctadang.nameservice.nameservice.MsgBuy", value: MsgBuy.fromPartial( data ) }),
     msgChangeSaleStatus: (data: MsgChangeSaleStatus): EncodeObject => ({ typeUrl: "/vinhphuctadang.nameservice.nameservice.MsgChangeSaleStatus", value: MsgChangeSaleStatus.fromPartial( data ) }),
     msgCreateName: (data: MsgCreateName): EncodeObject => ({ typeUrl: "/vinhphuctadang.nameservice.nameservice.MsgCreateName", value: MsgCreateName.fromPartial( data ) }),
-    msgBuy: (data: MsgBuy): EncodeObject => ({ typeUrl: "/vinhphuctadang.nameservice.nameservice.MsgBuy", value: MsgBuy.fromPartial( data ) }),
     
   };
 };

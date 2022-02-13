@@ -1,0 +1,23 @@
+name: PR merge dev/master check
+defaults:
+  run:
+    shell: bash -ieo pipefail {0}
+on: 
+  pull_request:
+    branches:
+      - dev
+      - master
+
+jobs:
+  run-unittests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout injective-exchange
+      uses: actions/checkout@v2
+    - name: Setup Go ^1.17
+      uses: actions/setup-go@v2
+      with:
+        go-version: '^1.17.0'
+    - name: Run unit tests
+      run: go test ./x/...
