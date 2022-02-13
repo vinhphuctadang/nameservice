@@ -8,7 +8,7 @@ on:
       - dev
       - master
 
-job:
+jobs:
   run-unittests:
   - name: Run unit tests
     runs-on: ubuntu-latest
