@@ -14,7 +14,8 @@
 # default branch.
 on:
   push:
-  - master
+    branches:
+      - master
 
 jobs:
   might_release:

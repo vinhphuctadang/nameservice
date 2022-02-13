@@ -4,8 +4,9 @@ defaults:
     shell: bash -ieo pipefail {0}
 on: 
   pull_request:
-    - dev
-    - master
+    branches:
+      - dev
+      - master
 
 job:
   run-unittests:
