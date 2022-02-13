@@ -24,6 +24,9 @@ func TestMsgChangeSaleStatus_ValidateBasic(t *testing.T) {
 			name: "valid address",
 			msg: MsgChangeSaleStatus{
 				Creator: sample.AccAddress(),
+				Name:    "hello",
+				Price:   "1000",
+				ForSale: "false",
 			},
 		},
 	}

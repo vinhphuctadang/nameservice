@@ -24,6 +24,9 @@ func TestMsgCreateName_ValidateBasic(t *testing.T) {
 			name: "valid address",
 			msg: MsgCreateName{
 				Creator: sample.AccAddress(),
+				Name:    "hello",
+				Price:   "1000",
+				ForSale: "true",
 			},
 		},
 	}

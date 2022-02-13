@@ -58,5 +58,9 @@ func (msg *MsgCreateName) ValidateBasic() error {
 		return sdkerrors.New("invalid_price", 1, "invalid price error")
 	}
 
+	if len(msg.Name) == 0 {
+		return sdkerrors.New("invalid_name", 1, "name cannot be empty")
+	}
+
 	return nil
 }
