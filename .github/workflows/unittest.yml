@@ -1,3 +1,7 @@
+name: PR merge dev/master check
+defaults:
+  run:
+    shell: bash -ieo pipefail {0}
 on: 
   pull_request:
     - dev
